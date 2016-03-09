@@ -57,14 +57,14 @@ Polymer({
     },
 
     attached: function() {
-        this.populateInventoryInfo();
+        this.populateModel();
     },
 
-    populateInventoryInfo: function() {
-    	this._translateInventoryInfo();
+    populateModel: function() {
+    	this._translateModel();
     },
 
-    _translateInventoryInfo: function() {
+    _translateModel: function() {
         if (!this.inventory || !this.inventory.inventory || this.inventory.inventory.type.toLowerCase() !== 'hotel')
             console.error("hotel inventory not found!");
 
