@@ -2,7 +2,7 @@
 <!--
     `t-air-item` air product component.
     This component shows information single air product.
-	-->
+    -->
 <dom-module id="t-air-item">
     <template>
         <div>logo - [[logo]]</div>
@@ -61,25 +61,22 @@ Polymer({
         if (this.isRoundTrip && this.model.searchCriteria.legs.length && this.model.searchCriteria.legs[0].arrivalLocation)
             this.returnSource = this.model.searchCriteria.legs[0].arrivalLocation.code;
 
-        this._setPasssengerCount();
+        this._setGuestCount();
 
-        if (this.model.inventory.departureTime)
-            this.onwardDate = this.model.inventory.departureTime.date;
-
-        if (this.model.inventory.arrivalTime)
-            this.returnDate = this.model.inventory.arrivalTime.date;
+        this._setDates();
 
         this.status = this.model.bookingStatus;
     },
 
-    _setPasssengerCount: function() {
+    _setGuestCount: function() {
 
-        if (!this.model.searchCriteria.passengers.length)
-            return;
-
+        //default values
         this.adultCount = 1;
         this.childCount = 0;
         this.infantCount = 0;
+
+        if (!this.model.searchCriteria.passengers.length)
+            return;
 
         for (var i = 0; i < this.model.searchCriteria.passengers.length; i++) {
 
@@ -94,6 +91,20 @@ Polymer({
                     this.infantCount = this.model.searchCriteria.passengers[i].quantity;
                     break;
             }
+        }
+    },
+
+    _setDates: function() {
+        var month = ["Jan", "Feb", "March", "April", "May", "June", "July", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+        if (this.model.inventory.departureTime) {
+            var onwardDate = new Date(this.model.inventory.departureTime.date);
+            this.onwardDate = onwardDate.getDate() + ' ' + month[onwardDate.getMonth()];
+        }
+
+        if (this.model.inventory.arrivalTime) {
+            var returnDate = new Date(this.model.inventory.arrivalTime.date);
+            this.returnDate = returnDate.getDate() + ' ' + month[returnDate.getMonth()];
         }
     }
 });

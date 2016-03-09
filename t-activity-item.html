@@ -1,4 +1,8 @@
 <link rel="import" href="../polymer/polymer.html" />
+<!--
+    `t-activity-item` activity product component.
+    This component shows information single activity product.
+	-->
 <dom-module id="t-activity-item">
     <template>
         <div>logo - [[logo]]</div>
@@ -13,31 +17,21 @@ Polymer({
     is: "t-activity-item",
 
     properties: {
+
+        /**
+         * logo url.
+         * This is required field.
+         */
         logo: {
             type: String,
             value: 'activity logo'
         },
 
-        name: {
-            type: String,
-            value: ''
-        },
-
-        date: {
-            type: Date,
-            value: null
-        },
-
-        location: {
-            type: String,
-            value: null
-        },
-
-        status: {
-            type: String,
-            value: ''
-        },
-
+        /**
+         * activity product model.
+         * This model is inventoriesInfo model of type 'Activity' sent in mystique order api response
+         * This is required field.
+         */
         model: {
             type: Object,
             value: null
@@ -56,8 +50,18 @@ Polymer({
 
         this.name = this.model.inventory.name;
         this.status = this.model.bookingStatus;
-        this.date = this.model.inventory.options[0].selectedDateTime.date;
         this.location = this.model.searchCriteria.location.cityName || 'not sent by api';
+        this._setDates();
+
+    },
+
+    _setDates: function() {
+        var month = ["Jan", "Feb", "March", "April", "May", "June", "July", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+        if (this.model.inventory.options[0].selectedDateTime) {
+            var date = new Date(this.model.inventory.options[0].selectedDateTime.date);
+            this.date = date.getDate() + ' ' + month[date.getMonth()];
+        }
     }
 });
 </script>

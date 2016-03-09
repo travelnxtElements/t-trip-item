@@ -5,11 +5,11 @@
 	-->
 <dom-module id="t-car-item">
     <template>
-        <div>[[logo]]</div>
-        <div>[[name]]</div>
-        <div>[[pickupDate]]</div>
-        <div>[[dropoffDate]]</div>
-        <div>[[status]]</div>
+        <div>logo - [[logo]]</div>
+        <div>name - [[name]]</div>
+        <div>pickup date - [[pickupDate]]</div>
+        <div>dropoff date - [[dropoffDate]]</div>
+        <div>status - [[status]]</div>
     </template>
 </dom-module>
 <script>
@@ -28,8 +28,8 @@ Polymer({
         },
 
         /**
-         * air product model.
-         * This model is inventoriesInfo model of type 'Flight' sent in mystique order api response
+         * activity product model.
+         * This model is inventoriesInfo model of type 'Car' sent in mystique order api response
          * This is required field.
          */
         model:{
@@ -45,9 +45,21 @@ Polymer({
     _populateModel: function() {
     	this.status = this.model.bookingStatus;
     	this.name = this.model.inventory.brand.name;
+        this._setDates();
+    },
 
-    	this.pickupDate = this.model.searchCriteria.pickupDate.date;
-    	this.dropoffDate = this.model.searchCriteria.dropoffDate.date;
+    _setDates: function() {
+        var month = ["Jan", "Feb", "March", "April", "May", "June", "July", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+        if (this.model.searchCriteria.pickupDate) {
+            var pickupDate = new Date(this.model.searchCriteria.pickupDate.date);
+            this.pickupDate = pickupDate.getDate() + ' ' + month[pickupDate.getMonth()];
+        }
+
+        if (this.model.searchCriteria.dropoffDate) {
+            var dropoffDate = new Date(this.model.searchCriteria.dropoffDate.date);
+            this.dropoffDate = dropoffDate.getDate() + ' ' + month[dropoffDate.getMonth()];
+        }
     }
 });
 </script>

@@ -46,20 +46,44 @@ Polymer({
         }
 
         this.name = this.model.inventory.name;
-
         this.status = this.model.bookingStatus;
-
-        this.checkIn = this.model.inventory.stayDuration.start.date;
-        this.checkOut = this.model.inventory.stayDuration.end.date;
-
-        this.stay = this._getStayCount();
-
-        this.passengerCount = 5;//need to set this
-
+        this._setDates();
+        this._setStayCount();
+        this._setPassengerCount();
     },
 
-    _getStayCount: function() {
-        return Math.round((new Date(this.checkOut) - new Date(this.checkIn)) / (1000 * 60 * 60 * 24));
+    _setStayCount: function() {
+        this.stay = Math.round((new Date(this.checkOut) - new Date(this.checkIn)) / (1000 * 60 * 60 * 24));
+    },
+
+    _setPassengerCount: function() {
+
+        if (!this.model.searchCriteria.rooms.length)
+            return;
+
+        var guestCount = 0;
+
+        for (var i = 0; i < this.model.searchCriteria.rooms.length; i++) {
+            guestCount += this.model.searchCriteria.rooms[i].adults.quantity;
+            if (this.model.searchCriteria.rooms[i].children)
+                guestCount += this.model.searchCriteria.rooms[i].children.quantity;
+        }
+
+        this.passengerCount = guestCount;
+    },
+
+    _setDates: function() {
+        var month = ["Jan", "Feb", "March", "April", "May", "June", "July", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+        if (this.model.inventory.stayDuration.start) {
+            var checkIn = new Date(this.model.inventory.stayDuration.start.date);
+            this.checkIn = checkIn.getDate() + ' ' + month[checkIn.getMonth()];
+        }
+
+        if (this.model.inventory.stayDuration.end) {
+            var checkOut = new Date(this.model.inventory.stayDuration.end.date);
+            this.checkOut = checkOut.getDate() + ' ' + month[checkOut.getMonth()];
+        }
     }
 });
 </script>
