@@ -1,14 +1,30 @@
 <link rel="import" href="../polymer/polymer.html" />
+<!--
+    `t-air-item` air product component.
+    This component shows information single air product.
+	
+Example:
+        without event handlers
+        <t-trip-api></t-trip-api>
+
+        with data
+        <t-list id="list" data-api="result.json" as="item" token-param="bookings" auto>
+            <template>
+                <t-trip-item trip="{{item}}"></t-trip-item>
+            </template>
+        </t-list>-->
 <dom-module id="t-air-item">
     <template>
-        <div>[[logo]]</div>
-        <div>[[source]]</div>
-        <div>[[destination]]</div>
-        <div>[[adultCount]]</div>
-        <div>[[childCount]]</div>
-        <div>[[infantCount]]</div>
-        <div>[[isRoundTrip]]</div>
-        <div>[[status]]</div>
+        <div>logo - [[logo]]</div>
+        <div>onward source - [[onwardSource]]</div>
+        <div>return source - [[returnSource]]</div>
+        <div>onward date - [[onwardDate]]</div>
+        <div>return date - [[returnDate]]</div>
+        <div>adult count - [[adultCount]]</div>
+        <div>child count - [[childCount]]</div>
+        <div>infant count - [[infantCount]]</div>
+        <div>is round trip - [[isRoundTrip]]</div>
+        <div>status - [[status]]</div>
     </template>
 </dom-module>
 <script>
@@ -16,77 +32,79 @@ Polymer({
     is: "t-air-item",
 
     properties: {
+
+        /**
+         * logo url.
+         * This is required field.
+         */
         logo: {
             type: String,
-            value: ''
+            value: 'flight logo'
         },
 
-        source: {
-            type: String,
-            value: ''
-        },
-
-        destination: {
-            type: String,
-            value: ''
-        },
-
-        adultCount: {
-            type: Number,
-            value: 1
-        },
-
-        childCount: {
-            type: Number,
-            value: 0
-        },
-
-        infantCount: {
-            type: Number,
-            value: 0
-        },
-
-        onwardDate: {
-            type: Date,
-            value: null
-        },
-
-        returnDate: {
-            type: Date,
-            value: null
-        },
-
-        isRoundTrip: {
-            type: Boolean,
-            value: false
-        },
-
-        status: {
-            type: String,
-            value: ''
-        },
-
-        inventory: {
+        /**
+         * air product model.
+         * This model is inventoriesInfo model of type 'Flight' sent in mystique order api response
+         * This is required field.
+         */
+        model: {
             type: Object,
             value: null
         }
     },
 
     attached: function() {
-        this.populateModel();
+        this._populateModel();
     },
 
-    populateModel: function() {
-    	this._translateModel();
-    },
-
-    _translateModel: function() {
-        if (!this.inventory || !this.inventory.inventory || this.inventory.inventory.type.toLowerCase() !== 'flight')
+    _populateModel: function() {
+        if (!this.model || !this.model.inventory || this.model.inventory.type.toLowerCase() !== 'flight') {
             console.error("air inventory not found!");
+            return;
+        }
 
-        return {
-            //translate object here..
-        };
+        this.isRoundTrip = this.model.inventory.itineraryType.toLowerCase() === "roundtrip";
+
+        if (this.model.searchCriteria.legs.length && this.model.searchCriteria.legs[0].departureLocation)
+            this.onwardSource = this.model.searchCriteria.legs[0].departureLocation.code;
+
+        if (this.isRoundTrip && this.model.searchCriteria.legs.length && this.model.searchCriteria.legs[0].arrivalLocation)
+            this.returnSource = this.model.searchCriteria.legs[0].arrivalLocation.code;
+
+        this._setPasssengerCount();
+
+        if (this.model.inventory.departureTime)
+            this.onwardDate = this.model.inventory.departureTime.date;
+
+        if (this.model.inventory.arrivalTime)
+            this.returnDate = this.model.inventory.arrivalTime.date;
+
+        this.status = this.model.bookingStatus;
+    },
+
+    _setPasssengerCount: function() {
+
+        if (!this.model.searchCriteria.passengers.length)
+            return;
+
+        this.adultCount = 1;
+        this.childCount = 0;
+        this.infantCount = 0;
+
+        for (var i = 0; i < this.model.searchCriteria.passengers.length; i++) {
+
+            switch (this.model.searchCriteria.passengers[i].type.toLowerCase()) {
+                case 'adult':
+                    this.adultCount = this.model.searchCriteria.passengers[i].quantity;
+                    break;
+                case 'child':
+                    this.childCount = this.model.searchCriteria.passengers[i].quantity;
+                    break;
+                case 'infant':
+                    this.infantCount = this.model.searchCriteria.passengers[i].quantity;
+                    break;
+            }
+        }
     }
 });
 </script>

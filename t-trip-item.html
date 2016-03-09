@@ -30,18 +30,25 @@ Example:
         <div>
             <template is="dom-repeat" items="{{tripProducts}}">
                 <template is="dom-if" if="{{_isAir(item)}}">
-                    <t-air-item inventory="{{item}}"></t-air-item>
+                    <h3>air</h3>
+                    <t-air-item model="{{item}}"></t-air-item>
                     <br>
                 </template>
                 <template is="dom-if" if="{{_isHotel(item)}}">
+                    <br>
+                    <h3>hotel</h3>
                     <t-hotel-item inventory="{{item}}"></t-hotel-item>
                     <br>
                 </template>
                 <template is="dom-if" if="{{_isActivity(item)}}">
+                    <br>
+                    <h3>activity</h3>
                     <t-activity-item inventory="{{item}}"></t-activity-item>
                     <br>
                 </template>
                 <template is="dom-if" if="{{_isCar(item)}}">
+                    <br>
+                    <h3>car</h3>
                     <t-car-item inventory="{{item}}"></t-car-item>
                     <br>
                 </template>
@@ -58,7 +65,7 @@ Polymer({
         /**
          * trip name.
          * This is required field.
-     	*/
+         */
         name: {
             type: String,
             value: ''
@@ -67,7 +74,7 @@ Polymer({
         /**
          * trip id.
          * This is required field.
-     	*/
+         */
         tripId: {
             type: String,
             value: ''
@@ -75,7 +82,7 @@ Polymer({
 
         /**
          * list of booked inventories.
-     	*/
+         */
         tripProducts: {
             type: Array,
             value: []
@@ -84,7 +91,7 @@ Polymer({
         /**
          * trip item.
          * This is required field.
-     	*/
+         */
         trip: {
             type: Object,
             value: {},
@@ -94,7 +101,7 @@ Polymer({
         /**
          * trip status.
          * This is required field.
-     	*/
+         */
         status: {
             type: String,
             value: ''
