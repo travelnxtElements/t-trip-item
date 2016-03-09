@@ -5,19 +5,19 @@
         <div>{{tripId}}</div>
         <div>delete link</div>
         <div>details link</div>
-        <div>{{statu}}</div>
+        <div>{{status}}</div>
         <div>
             <template is="dom-repeat" items="{{tripProducts}}">
                 <template is="dom-if" if="{{_isAir(item)}}">
                     <t-trip-air inventory="{{item}}"></t-trip-air>
                 </template>
-                <template is="dom-if" if="{{_isHotel(item.inventory)}}">
+                <template is="dom-if" if="{{_isHotel(item)}}">
                     <t-trip-hotel inventory="{{item}}"></t-trip-hotel>
                 </template>
-                <template is="dom-if" if="{{_isActivity(item.inventory)}}">
+                <template is="dom-if" if="{{_isActivity(item)}}">
                     <t-trip-activity inventory="{{item}}"></t-trip-activity>
                 </template>
-                <template is="dom-if" if="{{_isCar(item.inventory)}}">
+                <template is="dom-if" if="{{_isCar(item)}}">
                     <t-trip-car inventory="{{item}}"></t-trip-car>
                 </template>
             </template>
@@ -71,32 +71,32 @@ Polymer({
         }
     },
 
-    _isAir: function(inventory) {
-        if (!inventory || !inventory.item)
+    _isAir: function(product) {
+        if (!product || !product.inventory)
             console.error("inventory not found!");
 
-        return inventory.type.toLowerCase() === 'flight';
+        return product.inventory.type.toLowerCase() === 'flight';
     },
 
-    _isHotel: function(inventory) {
-        if (!inventory || !inventory.item)
+    _isHotel: function(product) {
+        if (!product || !product.inventory)
             console.error("inventory not found!");
 
-        return inventory.type.toLowerCase() === 'hotel';
+        return product.inventory.type.toLowerCase() === 'hotel';
     },
 
-    _isActivity: function(inventory) {
-        if (!inventory || !inventory.item)
+    _isActivity: function(product) {
+        if (!product || !product.inventory)
             console.error("inventory not found!");
 
-        return inventory.type.toLowerCase() === 'activity';
+        return product.inventory.type.toLowerCase() === 'activity';
     },
 
-    _isCar: function(inventory) {
-        if (!inventory || !inventory.item)
+    _isCar: function(product) {
+        if (!product || !product.inventory)
             console.error("inventory not found!");
 
-        return inventory.type.toLowerCase() === 'car';
+        return product.inventory.type.toLowerCase() === 'car';
     }
 });
 </script>
