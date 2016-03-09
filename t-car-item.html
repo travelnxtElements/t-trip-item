@@ -1,18 +1,16 @@
 <link rel="import" href="../polymer/polymer.html" />
-<dom-module id="t-trip-hotel">
+<dom-module id="t-car-item">
     <template>
-    	<div>[[logo]]</div>
-    	<div>[[name]]</div>
-    	<div>[[passengerCount]]</div>
-    	<div>[[checkIn]]</div>
-    	<div>[[checkOut]]</div>
-    	<div>[[stay]]</div>
-    	<div>[[status]]</div>
+        <div>[[logo]]</div>
+        <div>[[name]]</div>
+        <div>[[pickupDate]]</div>
+        <div>[[dropoffDate]]</div>
+        <div>[[status]]</div>
     </template>
 </dom-module>
 <script>
 Polymer({
-    is: "t-trip-hotel",
+    is: "t-car-item",
 
     properties: {
         logo: {
@@ -25,24 +23,14 @@ Polymer({
             value: ''
         },
 
-        passengerCount: {
-            type: Number
-            value: 1
+        pickupDate: {
+            type: Date,
+            value: null
         },
 
-        checkIn:{
-        	type:Date,
-        	value:null
-        },
-
-        checkOut:{
-        	type:Date,
-        	value:null
-        },
-
-        stay: {
-            type: Number,
-            value: 1
+        dropoffDate: {
+            type: Date,
+            value: null
         },
 
         status: {
@@ -65,8 +53,8 @@ Polymer({
     },
 
     _translateInventoryInfo: function() {
-        if (!this.inventory || !this.inventory.inventory || this.inventory.inventory.type.toLowerCase() !== 'hotel')
-            console.error("hotel inventory not found!");
+        if (!this.inventory || !this.inventory.inventory || this.inventory.inventory.type.toLowerCase() !== 'car')
+            console.error("car inventory not found!");
 
         return {
             //translate object here..
