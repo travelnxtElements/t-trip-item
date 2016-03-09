@@ -7,26 +7,16 @@
     <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
     <title>t-trip-item demo</title>
     <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
-    <link rel="import" href="../../iron-ajax/iron-ajax.html" />
     <link rel="import" href="../../t-list/t-list.html" />
     <link rel="import" href="../t-trip-item.html">
 </head>
 
 <body>
-    <template is="dom-bind" id="domBindTemplate">
-        <!-- <iron-ajax id="data" url="result.json" on-response="attachData" auto></iron-ajax> -->
-        <t-list id="list" data-api="result.json" as="item" token-param="bookings" auto>
-            <template>
-                <t-trip-item trip="{{item}}"></t-trip-item>
-            </template>
-        </t-list>
-    </template>
+    <t-list id="list" data-api="result.json" as="item" token-param="bookings" auto>
+        <template>
+            <t-trip-item trip="{{item}}"></t-trip-item>
+        </template>
+    </t-list>
 </body>
-<script type="text/javascript">
-var template = document.getElementById('domBindTemplate');
-// template.attachData = function(e) {
-//     template.$.list.items = e.detail.response;
-// };
-</script>
 
 </html>

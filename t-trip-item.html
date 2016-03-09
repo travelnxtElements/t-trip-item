@@ -3,6 +3,22 @@
 <link rel="import" href="./t-hotel-item.html">
 <link rel="import" href="./t-activity-item.html">
 <link rel="import" href="./t-car-item.html">
+<!--
+    `t-trip-item` is trip listing item component.
+    This component shows information of a single trip.
+    It may contain one or more product depending upon booked itineraries.
+	
+	
+Example:
+        without event handlers
+        <t-trip-api></t-trip-api>
+
+        with data
+        <t-list id="list" data-api="result.json" as="item" token-param="bookings" auto>
+            <template>
+                <t-trip-item trip="{{item}}"></t-trip-item>
+            </template>
+        </t-list>-->
 <dom-module id="t-trip-item">
     <template>
         <div>{{name}}</div>
@@ -39,27 +55,46 @@ Polymer({
 
     properties: {
 
+        /**
+         * trip name.
+         * This is required field.
+     	*/
         name: {
             type: String,
             value: ''
         },
 
+        /**
+         * trip id.
+         * This is required field.
+     	*/
         tripId: {
             type: String,
             value: ''
         },
 
+        /**
+         * list of booked inventories.
+     	*/
         tripProducts: {
             type: Array,
             value: []
         },
 
+        /**
+         * trip item.
+         * This is required field.
+     	*/
         trip: {
             type: Object,
             value: {},
             observer: 'populateModel'
         },
 
+        /**
+         * trip status.
+         * This is required field.
+     	*/
         status: {
             type: String,
             value: ''
@@ -71,7 +106,6 @@ Polymer({
             console.error("trip not found!");
         if (!this.tripProducts)
             this.tripProducts = this.trip.inventoriesInfo;
-        // this.populateModel();
     },
 
     populateModel: function() {
