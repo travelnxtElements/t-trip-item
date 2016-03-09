@@ -1,5 +1,28 @@
 <link rel="import" href="../polymer/polymer.html" />
 <dom-module id="t-trip-item">
+    <template>
+        <div>{{name}}</div>
+        <div>{{tripId}}</div>
+        <div>delete link</div>
+        <div>details link</div>
+        <div>{{statu}}</div>
+        <div>
+            <template is="dom-repeat" items="{{tripProducts}}">
+                <template is="dom-if" if="{{_isAir(item)}}">
+                    <t-trip-air inventory="{{item}}"></t-trip-air>
+                </template>
+                <template is="dom-if" if="{{_isHotel(item.inventory)}}">
+                    <t-trip-hotel inventory="{{item}}"></t-trip-hotel>
+                </template>
+                <template is="dom-if" if="{{_isActivity(item.inventory)}}">
+                    <t-trip-activity inventory="{{item}}"></t-trip-activity>
+                </template>
+                <template is="dom-if" if="{{_isCar(item.inventory)}}">
+                    <t-trip-car inventory="{{item}}"></t-trip-car>
+                </template>
+            </template>
+        </div>
+    </template>
 </dom-module>
 <script>
 Polymer({
@@ -35,12 +58,45 @@ Polymer({
         carInventory: {
             type: Object,
             value: null
-        }
+        },
+
+        tripProducts: {
+            type: Array,
+            value: []
+        },
 
         status: {
             type: String,
             value: ''
         }
+    },
+
+    _isAir: function(inventory) {
+        if (!inventory || !inventory.item)
+            console.error("inventory not found!");
+
+        return inventory.type.toLowerCase() === 'flight';
+    },
+
+    _isHotel: function(inventory) {
+        if (!inventory || !inventory.item)
+            console.error("inventory not found!");
+
+        return inventory.type.toLowerCase() === 'hotel';
+    },
+
+    _isActivity: function(inventory) {
+        if (!inventory || !inventory.item)
+            console.error("inventory not found!");
+
+        return inventory.type.toLowerCase() === 'activity';
+    },
+
+    _isCar: function(inventory) {
+        if (!inventory || !inventory.item)
+            console.error("inventory not found!");
+
+        return inventory.type.toLowerCase() === 'car';
     }
 });
 </script>

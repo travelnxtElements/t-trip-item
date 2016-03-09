@@ -44,15 +44,16 @@ Polymer({
         }
     },
 
-    populateInventoryInfo: function(inventory) {
-
+    attached: function() {
+        this.populateInventoryInfo();
     },
 
-    _translateInventoryInfo: function(inventory) {
-        if (!this.inventory)
-            this.inventory = inventory;
+    populateInventoryInfo: function() {
+    	this._translateInventoryInfo();
+    },
 
-        if (!this.inventory || !this.inventory.inventory || this.inventory.inventory.type !== 'activity')
+    _translateInventoryInfo: function() {
+        if (!this.inventory || !this.inventory.inventory || this.inventory.inventory.type.toLowerCase() !== 'activity')
             console.error("activity inventory not found!");
 
         return {

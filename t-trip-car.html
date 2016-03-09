@@ -44,15 +44,16 @@ Polymer({
         }
     },
 
-    populateInventoryInfo: function(inventory) {
-
+    attached: function() {
+        this.populateInventoryInfo();
     },
 
-    _translateInventoryInfo: function(inventory) {
-        if (!this.inventory)
-            this.inventory = inventory;
-        
-        if (!this.inventory || !this.inventory.inventory || this.inventory.inventory.type !== 'car')
+    populateInventoryInfo: function() {
+    	this._translateInventoryInfo();
+    },
+
+    _translateInventoryInfo: function() {
+        if (!this.inventory || !this.inventory.inventory || this.inventory.inventory.type.toLowerCase() !== 'car')
             console.error("car inventory not found!");
 
         return {
