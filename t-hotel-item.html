@@ -1,13 +1,17 @@
 <link rel="import" href="../polymer/polymer.html" />
+<!--
+    `t-hotel-item` hotel product component.
+    This component shows information single hotel product.
+    -->
 <dom-module id="t-hotel-item">
     <template>
-    	<div>[[logo]]</div>
-    	<div>[[name]]</div>
-    	<div>[[passengerCount]]</div>
-    	<div>[[checkIn]]</div>
-    	<div>[[checkOut]]</div>
-    	<div>[[stay]]</div>
-    	<div>[[status]]</div>
+        <div>logo - [[logo]]</div>
+        <div>name - [[name]]</div>
+        <div>passenger count - [[passengerCount]]</div>
+        <div>check in date - [[checkIn]]</div>
+        <div>check out date - [[checkOut]]</div>
+        <div>stay duration - [[stay]]</div>
+        <div>status - [[status]]</div>
     </template>
 </dom-module>
 <script>
@@ -17,60 +21,45 @@ Polymer({
     properties: {
         logo: {
             type: String,
-            value: ''
+            value: 'hotel logo'
         },
 
-        name: {
-            type: String,
-            value: ''
-        },
-
-        passengerCount: {
-            type: Number,
-            value: 1
-        },
-
-        checkIn:{
-        	type:Date,
-        	value:null
-        },
-
-        checkOut:{
-        	type:Date,
-        	value:null
-        },
-
-        stay: {
-            type: Number,
-            value: 1
-        },
-
-        status: {
-            type: String,
-            value: ''
-        },
-
-        inventory:{
-        	type:Object,
-        	value:null
+        /**
+         * hotel product model.
+         * This model is inventoriesInfo model of type 'Hotel' sent in mystique order api response
+         * This is required field.
+         */
+        model: {
+            type: Object,
+            value: null
         }
     },
 
     attached: function() {
-        this.populateModel();
+        this._populateModel();
     },
 
-    populateModel: function() {
-    	this._translateModel();
-    },
-
-    _translateModel: function() {
-        if (!this.inventory || !this.inventory.inventory || this.inventory.inventory.type.toLowerCase() !== 'hotel')
+    _populateModel: function() {
+        if (!this.model || !this.model.inventory || this.model.inventory.type.toLowerCase() !== 'hotel') {
             console.error("hotel inventory not found!");
+            return;
+        }
 
-        return {
-            //translate object here..
-        };
+        this.name = this.model.inventory.name;
+
+        this.status = this.model.bookingStatus;
+
+        this.checkIn = this.model.inventory.stayDuration.start.date;
+        this.checkOut = this.model.inventory.stayDuration.end.date;
+
+        this.stay = this._getStayCount();
+
+        this.passengerCount = 5;//need to set this
+
+    },
+
+    _getStayCount: function() {
+        return Math.round((new Date(this.checkOut) - new Date(this.checkIn)) / (1000 * 60 * 60 * 24));
     }
 });
 </script>

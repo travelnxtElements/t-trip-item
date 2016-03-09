@@ -21,11 +21,11 @@ Example:
         </t-list>-->
 <dom-module id="t-trip-item">
     <template>
-        <div>{{name}}</div>
-        <div>{{tripId}}</div>
+        <div>trip name - {{name}}</div>
+        <div>trip id - {{tripId}}</div>
         <div>delete link</div>
         <div>details link</div>
-        <div>{{status}}</div>
+        <div>statyus - {{status}}</div>
         <br>
         <div>
             <template is="dom-repeat" items="{{tripProducts}}">
@@ -37,7 +37,7 @@ Example:
                 <template is="dom-if" if="{{_isHotel(item)}}">
                     <br>
                     <h3>hotel</h3>
-                    <t-hotel-item inventory="{{item}}"></t-hotel-item>
+                    <t-hotel-item model="{{item}}"></t-hotel-item>
                     <br>
                 </template>
                 <template is="dom-if" if="{{_isActivity(item)}}">
