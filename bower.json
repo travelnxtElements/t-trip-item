@@ -21,8 +21,10 @@
     "test",
     "tests"
   ],
-  "dependencies": { 
-    "polymer": "Polymer/polymer#^1.0.0"
+  "dependencies": {
+    "polymer": "Polymer/polymer#^1.0.0",
+    "t-list": "atomelements/t-list#master",
+    "iron-ajax": "PolymerElements/iron-ajax#^1.2.0"
   },
   "devDependencies": {
     "web-component-tester": "*",

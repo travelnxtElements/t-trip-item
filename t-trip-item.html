@@ -1,4 +1,8 @@
 <link rel="import" href="../polymer/polymer.html" />
+<link rel="import" href="./t-air-item.html">
+<link rel="import" href="./t-hotel-item.html">
+<link rel="import" href="./t-activity-item.html">
+<link rel="import" href="./t-car-item.html">
 <dom-module id="t-trip-item">
     <template>
         <div>{{name}}</div>
@@ -6,19 +10,24 @@
         <div>delete link</div>
         <div>details link</div>
         <div>{{status}}</div>
+        <br>
         <div>
             <template is="dom-repeat" items="{{tripProducts}}">
                 <template is="dom-if" if="{{_isAir(item)}}">
-                    <t-trip-air inventory="{{item}}"></t-trip-air>
+                    <t-air-item inventory="{{item}}"></t-air-item>
+                    <br>
                 </template>
                 <template is="dom-if" if="{{_isHotel(item)}}">
-                    <t-trip-hotel inventory="{{item}}"></t-trip-hotel>
+                    <t-hotel-item inventory="{{item}}"></t-hotel-item>
+                    <br>
                 </template>
                 <template is="dom-if" if="{{_isActivity(item)}}">
-                    <t-trip-activity inventory="{{item}}"></t-trip-activity>
+                    <t-activity-item inventory="{{item}}"></t-activity-item>
+                    <br>
                 </template>
                 <template is="dom-if" if="{{_isCar(item)}}">
-                    <t-trip-car inventory="{{item}}"></t-trip-car>
+                    <t-car-item inventory="{{item}}"></t-car-item>
+                    <br>
                 </template>
             </template>
         </div>
@@ -31,7 +40,7 @@ Polymer({
     properties: {
 
         name: {
-            type: String
+            type: String,
             value: ''
         },
 
@@ -40,35 +49,41 @@ Polymer({
             value: ''
         },
 
-        airInventory: {
-            type: Object,
-            value: null
-        },
-
-        hotelInventory: {
-            type: Object,
-            value: null
-        },
-
-        activityInventory: {
-            type: Object,
-            value: null
-        },
-
-        carInventory: {
-            type: Object,
-            value: null
-        },
-
         tripProducts: {
             type: Array,
             value: []
+        },
+
+        trip: {
+            type: Object,
+            value: {},
+            observer: 'populateModel'
         },
 
         status: {
             type: String,
             value: ''
         }
+    },
+
+    attached: function() {
+        if (!this.trip)
+            console.error("trip not found!");
+        if (!this.tripProducts)
+            this.tripProducts = this.trip.inventoriesInfo;
+        // this.populateModel();
+    },
+
+    populateModel: function() {
+        if (!this.trip)
+            console.error("trip not found!");
+
+        if (!this.tripProducts.length && this.trip.inventoriesInfo)
+            this.tripProducts = this.trip.inventoriesInfo;
+
+        this.name = this.trip.name;
+        this.tripId = this.trip.confirmationNumber;
+        this.status = this.trip.bookingStatus;
     },
 
     _isAir: function(product) {

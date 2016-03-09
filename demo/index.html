@@ -1,17 +1,32 @@
 <!doctype html>
 <html>
+
 <head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
-
-  <title>t-trip-item demo</title>
-
-  <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
-  <link rel="import" href="../t-trip-item.html">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
+    <title>t-trip-item demo</title>
+    <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+    <link rel="import" href="../../iron-ajax/iron-ajax.html" />
+    <link rel="import" href="../../t-list/t-list.html" />
+    <link rel="import" href="../t-trip-item.html">
 </head>
-<body>
-    <t-trip-item></t-trip-item>
-</body>
-</html>
 
+<body>
+    <template is="dom-bind" id="domBindTemplate">
+        <!-- <iron-ajax id="data" url="result.json" on-response="attachData" auto></iron-ajax> -->
+        <t-list id="list" data-api="result.json" as="item" token-param="bookings" auto>
+            <template>
+                <t-trip-item trip="{{item}}"></t-trip-item>
+            </template>
+        </t-list>
+    </template>
+</body>
+<script type="text/javascript">
+var template = document.getElementById('domBindTemplate');
+// template.attachData = function(e) {
+//     template.$.list.items = e.detail.response;
+// };
+</script>
+
+</html>
