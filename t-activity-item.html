@@ -1,11 +1,11 @@
 <link rel="import" href="../polymer/polymer.html" />
 <dom-module id="t-activity-item">
     <template>
-        <div>[[logo]]</div>
-        <div>[[name]]</div>
-        <div>[[date]]</div>
-        <div>[[location]]</div>
-        <div>[[status]]</div>
+        <div>logo - [[logo]]</div>
+        <div>name - [[name]]</div>
+        <div>date - [[date]]</div>
+        <div>location - [[location]]</div>
+        <div>status - [[status]]</div>
     </template>
 </dom-module>
 <script>
@@ -15,7 +15,7 @@ Polymer({
     properties: {
         logo: {
             type: String,
-            value: ''
+            value: 'activity logo'
         },
 
         name: {
@@ -38,27 +38,26 @@ Polymer({
             value: ''
         },
 
-        inventory: {
+        model: {
             type: Object,
             value: null
         }
     },
 
     attached: function() {
-        this.populateModel();
+        this._populateModel();
     },
 
-    populateModel: function() {
-    	this._translateModel();
-    },
-
-    _translateModel: function() {
-        if (!this.inventory || !this.inventory.inventory || this.inventory.inventory.type.toLowerCase() !== 'activity')
+    _populateModel: function() {
+        if (!this.model || !this.model.inventory || this.model.inventory.type.toLowerCase() !== 'activity') {
             console.error("activity inventory not found!");
+            return;
+        }
 
-        return {
-            //translate object here..
-        };
+        this.name = this.model.inventory.name;
+        this.status = this.model.bookingStatus;
+        this.date = this.model.inventory.options[0].selectedDateTime.date;
+        this.location = this.model.searchCriteria.location.cityName || 'not sent by api';
     }
 });
 </script>

@@ -25,7 +25,7 @@ Example:
         <div>trip id - {{tripId}}</div>
         <div>delete link</div>
         <div>details link</div>
-        <div>statyus - {{status}}</div>
+        <div>status - {{status}}</div>
         <br>
         <div>
             <template is="dom-repeat" items="{{tripProducts}}">
@@ -40,16 +40,16 @@ Example:
                     <t-hotel-item model="{{item}}"></t-hotel-item>
                     <br>
                 </template>
-                <template is="dom-if" if="{{_isActivity(item)}}">
-                    <br>
-                    <h3>activity</h3>
-                    <t-activity-item inventory="{{item}}"></t-activity-item>
-                    <br>
-                </template>
                 <template is="dom-if" if="{{_isCar(item)}}">
                     <br>
                     <h3>car</h3>
                     <t-car-item model="{{item}}"></t-car-item>
+                    <br>
+                </template>
+                <template is="dom-if" if="{{_isActivity(item)}}">
+                    <br>
+                    <h3>activity</h3>
+                    <t-activity-item model="{{item}}"></t-activity-item>
                     <br>
                 </template>
             </template>
