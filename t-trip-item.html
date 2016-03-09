@@ -1,13 +1,46 @@
 <link rel="import" href="../polymer/polymer.html" />
-
 <dom-module id="t-trip-item">
 </dom-module>
-
 <script>
-	Polymer({
-		is: "t-trip-item",
+Polymer({
+    is: "t-trip-item",
 
-		properties:{
-		}
-	});	
+    properties: {
+
+        name: {
+            type: String
+            value: ''
+        },
+
+        tripId: {
+            type: String,
+            value: ''
+        },
+
+        airInventory: {
+            type: Object,
+            value: null
+        },
+
+        hotelInventory: {
+            type: Object,
+            value: null
+        },
+
+        activityInventory: {
+            type: Object,
+            value: null
+        },
+
+        carInventory: {
+            type: Object,
+            value: null
+        }
+
+        status: {
+            type: String,
+            value: ''
+        }
+    }
+});
 </script>

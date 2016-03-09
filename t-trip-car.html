@@ -1,0 +1,63 @@
+<link rel="import" href="../polymer/polymer.html" />
+<dom-module id="t-trip-car">
+    <template>
+        <div>[[logo]]</div>
+        <div>[[name]]</div>
+        <div>[[pickupDate]]</div>
+        <div>[[dropoffDate]]</div>
+        <div>[[status]]</div>
+    </template>
+</dom-module>
+<script>
+Polymer({
+    is: "t-trip-car",
+
+    properties: {
+        logo: {
+            type: String
+            value: ''
+        },
+
+        name: {
+            type: String
+            value: ''
+        },
+
+        pickupDate: {
+            type: Date,
+            value: null
+        },
+
+        dropoffDate: {
+            type: Date,
+            value: null
+        },
+
+        status: {
+            type: String,
+            value: ''
+        },
+
+        inventory:{
+        	type:Object,
+        	value:null
+        }
+    },
+
+    populateInventoryInfo: function(inventory) {
+
+    },
+
+    _translateInventoryInfo: function(inventory) {
+        if (!this.inventory)
+            this.inventory = inventory;
+        
+        if (!this.inventory || !this.inventory.inventory || this.inventory.inventory.type !== 'car')
+            console.error("car inventory not found!");
+
+        return {
+            //translate object here..
+        };
+    }
+});
+</script>
