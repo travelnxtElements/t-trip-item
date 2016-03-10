@@ -21,6 +21,12 @@ Example:
         </t-list>-->
 <dom-module id="t-trip-item">
     <template>
+    <style>
+    .block{
+        display: block;
+        margin: 10px 0;
+    }
+    </style>
         <div>trip name - {{model.name}}</div>
         <div>model id - {{model.confirmationNumber}}</div>
         <div>delete link</div>
@@ -30,27 +36,16 @@ Example:
         <div>
             <template is="dom-repeat" items="{{model.inventoriesInfo}}">
                 <template is="dom-if" if="{{_isType(item,'flight')}}">
-                    <h3>air</h3>
-                    <t-air-item model="{{item}}"></t-air-item>
-                    <br>
+                    <t-air-item class="block" model="{{item}}"></t-air-item>
                 </template>
                 <template is="dom-if" if="{{_isType(item,'hotel')}}">
-                    <br>
-                    <h3>hotel</h3>
-                    <t-hotel-item model="{{item}}"></t-hotel-item>
-                    <br>
+                    <t-hotel-item class="block" model="{{item}}"></t-hotel-item>
                 </template>
                 <template is="dom-if" if="{{_isType(item,'car')}}">
-                    <br>
-                    <h3>car</h3>
-                    <t-car-item model="{{item}}"></t-car-item>
-                    <br>
+                    <t-car-item class="block" model="{{item}}"></t-car-item>
                 </template>
                 <template is="dom-if" if="{{_isType(item,'activity')}}">
-                    <br>
-                    <h3>activity</h3>
-                    <t-activity-item model="{{item}}"></t-activity-item>
-                    <br>
+                    <t-activity-item class="block" model="{{item}}"></t-activity-item>
                 </template>
             </template>
         </div>

@@ -6,13 +6,16 @@
     -->
 <dom-module id="t-hotel-item">
     <template>
-        <div>logo - [[logo]]</div>
-        <div>name - [[name]]</div>
-        <div>passenger count - [[passengerCount]]</div>
-        <div>check in date - [[_getDisplayDate(model.inventory.stayDuration.start.date)]]</div>
-        <div>check out date - [[_getDisplayDate(model.inventory.stayDuration.end.date)]]</div>
-        <div>stay duration - [[stay]]</div>
-        <div>status - [[status]]</div>
+        <t-trip-subitem-scaffold icon="maps:hotel" status="[[model.bookingStatus]]">
+            <div class="inventory-detail layout horizontal">
+                [[model.inventory.name]]
+            </div>
+            <div class="inventory-description">
+                [[_getDisplayDate(model.inventory.stayDuration.start.date)]]
+                -
+                [[_getDisplayDate(model.inventory.stayDuration.end.date)]]
+            </div>
+        </t-trip-subitem-scaffold>
     </template>
 </dom-module>
 <script>
@@ -20,10 +23,6 @@ Polymer({
     is: "t-hotel-item",
     behaviors:[Polymer.TravelnxtDateBehaviour],
     properties: {
-        logo: {
-            type: String,
-            value: 'hotel logo'
-        },
 
         /**
          * hotel product model.
@@ -37,7 +36,7 @@ Polymer({
     },
 
     attached: function() {
-        this._populateModel();
+        //this._populateModel();
     },
 
     _populateModel: function() {
@@ -46,31 +45,13 @@ Polymer({
             return;
         }
 
-        this.name = this.model.inventory.name;
-        this.status = this.model.bookingStatus;
         //this._setDates();
-        this._setStayCount();
-        this._setPassengerCount();
-    },
+       // this._setStayCount();
+    }
+    /*,
 
     _setStayCount: function() {
         this.stay = Math.round((new Date(this.checkOut) - new Date(this.checkIn)) / (1000 * 60 * 60 * 24));
-    },
-
-    _setPassengerCount: function() {
-
-        if (!this.model.searchCriteria.rooms.length)
-            return;
-
-        var guestCount = 0;
-
-        for (var i = 0; i < this.model.searchCriteria.rooms.length; i++) {
-            guestCount += this.model.searchCriteria.rooms[i].adults.quantity;
-            if (this.model.searchCriteria.rooms[i].children)
-                guestCount += this.model.searchCriteria.rooms[i].children.quantity;
-        }
-
-        this.passengerCount = guestCount;
-    }
+    }*/
 });
 </script>

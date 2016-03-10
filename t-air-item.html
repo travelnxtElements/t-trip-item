@@ -1,21 +1,30 @@
 <link rel="import" href="../polymer/polymer.html" />
 <link rel="import" href="dateBehavior.html">
+<link rel="import" href="t-trip-subitem-scaffold.html">
 <!--
     `t-air-item` air product component.
     This component shows information single air product.
     -->
 <dom-module id="t-air-item">
     <template>
-        <div>logo - [[logo]]</div>
-        <div>onward source - [[onwardSource]]</div>
-        <div>return source - [[returnSource]]</div>
-        <div>onward date - [[_getDisplayDate(model.inventory.departureTime.date)]]</div>
-        <div>return date - [[_getDisplayDate(model.inventory.arrivalTime.date)]]</div>
-        <div>adult count - [[adultCount]]</div>
-        <div>child count - [[childCount]]</div>
-        <div>infant count - [[infantCount]]</div>
-        <div>is round trip - [[isRoundTrip]]</div>
-        <div>status - [[status]]</div>
+        <t-trip-subitem-scaffold icon="maps:flight" status="[[model.bookingStatus]]">
+            <div class="inventory-detail layout horizontal">
+                [[model.searchCriteria.legs.0.departureLocation.code]] 
+                <template is="dom-if" if="[[isRoundTrip]]">
+                     <iron-icon icon="swap-horiz"></iron-icon>
+                </template>
+                <template is="dom-if" if="[[!isRoundTrip]]">
+                     <iron-icon icon="trending-flat"></iron-icon>
+                </template>
+                [[model.searchCriteria.legs.0.arrivalLocation.code]]
+            </div>
+            <div class="inventory-description">
+                [[_getDisplayDate(model.inventory.departureTime.date)]]
+                <template is="dom-if" if="[[isRoundTrip]]">
+                     - [[_getDisplayDate(model.inventory.arrivalTime.date)]]
+                </template>
+            </div>
+        </t-trip-subitem-scaffold>
     </template>
 </dom-module>
 <script>
@@ -23,15 +32,6 @@ Polymer({
     is: "t-air-item",
     behaviors:[Polymer.TravelnxtDateBehaviour],
     properties: {
-
-        /**
-         * logo url.
-         * This is required field.
-         */
-        logo: {
-            type: String,
-            value: 'flight logo'
-        },
 
         /**
          * air product model.
@@ -53,46 +53,7 @@ Polymer({
             console.error("air inventory not found!");
             return;
         }
-
         this.isRoundTrip = this.model.inventory.itineraryType.toLowerCase() === "roundtrip";
-
-        if (this.model.searchCriteria.legs.length && this.model.searchCriteria.legs[0].departureLocation)
-            this.onwardSource = this.model.searchCriteria.legs[0].departureLocation.code;
-
-        if (this.isRoundTrip && this.model.searchCriteria.legs.length && this.model.searchCriteria.legs[0].arrivalLocation)
-            this.returnSource = this.model.searchCriteria.legs[0].arrivalLocation.code;
-
-        this._setGuestCount();
-
-       // this._setDates();
-
-        this.status = this.model.bookingStatus;
-    },
-
-    _setGuestCount: function() {
-
-        //default values
-        this.adultCount = 1;
-        this.childCount = 0;
-        this.infantCount = 0;
-
-        if (!this.model.searchCriteria.passengers.length)
-            return;
-
-        for (var i = 0; i < this.model.searchCriteria.passengers.length; i++) {
-
-            switch (this.model.searchCriteria.passengers[i].type.toLowerCase()) {
-                case 'adult':
-                    this.adultCount = this.model.searchCriteria.passengers[i].quantity;
-                    break;
-                case 'child':
-                    this.childCount = this.model.searchCriteria.passengers[i].quantity;
-                    break;
-                case 'infant':
-                    this.infantCount = this.model.searchCriteria.passengers[i].quantity;
-                    break;
-            }
-        }
     }
 });
 </script>

@@ -6,11 +6,17 @@
 	-->
 <dom-module id="t-activity-item">
     <template>
-        <div>logo - [[logo]]</div>
-        <div>name - [[name]]</div>
-        <div>date - [[_getDisplayDate(model.inventory.options.0.selectedDateTime.date)]]</div>
-        <div>location - [[location]]</div>
-        <div>status - [[status]]</div>
+        <t-trip-subitem-scaffold icon="maps:flight" status="[[model.bookingStatus]]">
+            <div class="inventory-detail layout horizontal">
+                [[model.inventory.name]]
+            </div>
+            <div class="inventory-description">
+                <template is="dom-if" if="[[model.searchCriteria.location.cityName]]">
+                    [[model.searchCriteria.location.cityName]],
+                </template>
+                [[_getDisplayDate(model.inventory.options.0.selectedDateTime.date)]]
+            </div>
+        </t-trip-subitem-scaffold>
     </template>
 </dom-module>
 <script>
@@ -48,10 +54,6 @@ Polymer({
             console.error("activity inventory not found!");
             return;
         }
-
-        this.name = this.model.inventory.name;
-        this.status = this.model.bookingStatus;
-        this.location = this.model.searchCriteria.location.cityName || 'not sent by api';
         //this._setDates();
 
     }
