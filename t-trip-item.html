@@ -1,8 +1,10 @@
 <link rel="import" href="../polymer/polymer.html" />
+<link rel="import" href="../paper-menu-button/paper-menu-button.html" />
 <link rel="import" href="./t-air-item.html">
 <link rel="import" href="./t-hotel-item.html">
 <link rel="import" href="./t-activity-item.html">
 <link rel="import" href="./t-car-item.html">
+<link rel="import" href="../iron-flex-layout/classes/iron-flex-layout.html">
 <!--
     `t-trip-item` is trip listing item component.
     This component shows information of a single trip.
@@ -21,18 +23,64 @@ Example:
         </t-list>-->
 <dom-module id="t-trip-item">
     <template>
-    <style>
+    <style include="travel-element-styles">
+    :host{
+        display: block;
+    }
     .block{
         display: block;
         margin: 10px 0;
     }
+    .purchased{
+        color: var(--success-color,green);
+    }
+    .cancelled{
+        color: var(--error-color,red);
+    }
+    .planned{
+        color: var(--notify-color, #e3b255);
+    }
+    paper-menu-button{
+        padding: 0;
+        position: absolute;
+        right: -15px;
+        top: -8px;
+    }
+    paper-icon-button{
+        width: 36px;
+        height: 36px;
+    }
+    .header-icon-holder{
+        position: relative;
+        overflow: hidden;
+        padding-right: 15px;
+    }
+    paper-menu-button ::content > #dropdown{
+        top: 0!important;
+    }
     </style>
-        <div>trip name - {{model.name}}</div>
-        <div>model id - {{model.confirmationNumber}}</div>
-        <div>delete link</div>
-        <div>details link</div>
-        <div>status - {{model.bookingStatus}}</div>
-        <br>
+        <div class="layout horizontal secondary-text font-12 header-icon-holder">
+            <div class="flex layout vertical">
+                <div class="inventory-detail layout horizontal">
+                    <div class="flex primary-light-text font-14">
+                        [[model.name]]
+                    </div>
+                    <div class$="{{_getStatusClass(model.bookingStatus)}}">[[model.bookingStatus]]</div>
+                </div>
+                <div class="inventory-description">
+                    Trip ID: [[model.confirmationNumber]]
+                </div>
+            </div>
+            <div class="icon">
+                <paper-menu-button horizontal-offset="-20" horizontal-align="right">
+                  <paper-icon-button icon="more-vert" class="dropdown-trigger" noink></paper-icon-button>
+                  <paper-menu class="dropdown-content">
+                    <paper-item>Details</paper-item>
+                    <paper-item>Delete</paper-item>
+                  </paper-menu>
+                </paper-menu-button>
+            </div>
+        </div>
         <div>
             <template is="dom-repeat" items="{{model.inventoriesInfo}}">
                 <template is="dom-if" if="{{_isType(item,'flight')}}">
@@ -63,8 +111,7 @@ Polymer({
          */
         model: {
             type: Object,
-            value: {},
-            observer: '_populateModel'
+            value: null
         }
     },
 
@@ -75,18 +122,11 @@ Polymer({
             this.tripProducts = this.trip.inventoriesInfo;*/
     },
 
-    _populateModel: function() {
-        if (!this.model){
-            console.error("trip not found!");
+    _getStatusClass: function(status){
+        if(!status){
             return;
         }
-
-      /*  if (!this.tripProducts.length && this.trip.inventoriesInfo)
-            this.tripProducts = this.trip.inventoriesInfo;*/
-/*
-        this.name = this.trip.name;
-        this.tripId = this.trip.confirmationNumber;
-        this.status = this.trip.bookingStatus;*/
+        return status.toLowerCase();
     },
 
     _isType: function(product,type){

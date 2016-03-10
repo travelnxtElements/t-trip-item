@@ -24,7 +24,8 @@
   "dependencies": {
     "polymer": "Polymer/polymer#^1.0.0",
     "t-text-container": "travelnxtelements/t-text-container#master",
-    "t-list": "atomelements/t-list#master"
+    "t-list": "atomelements/t-list#master",
+    "paper-menu-button": "PolymerElements/paper-menu-button#^1.0.4"
   },
   "devDependencies": {
     "web-component-tester": "*",

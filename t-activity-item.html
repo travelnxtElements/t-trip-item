@@ -1,12 +1,13 @@
 <link rel="import" href="../polymer/polymer.html" />
 <link rel="import" href="dateBehavior.html">
+<link rel="import" href="t-trip-subitem-scaffold.html">
 <!--
     `t-activity-item` activity product component.
     This component shows information single activity product.
 	-->
 <dom-module id="t-activity-item">
     <template>
-        <t-trip-subitem-scaffold icon="maps:flight" status="[[model.bookingStatus]]">
+        <t-trip-subitem-scaffold icon="places:pool" status="[[model.bookingStatus]]">
             <div class="inventory-detail layout horizontal">
                 [[model.inventory.name]]
             </div>
