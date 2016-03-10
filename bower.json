@@ -25,11 +25,15 @@
     "polymer": "Polymer/polymer#^1.0.0",
     "t-text-container": "travelnxtelements/t-text-container#master",
     "t-list": "atomelements/t-list#master",
-    "paper-menu-button": "PolymerElements/paper-menu-button#^1.0.4"
+    "paper-menu-button": "PolymerElements/paper-menu-button#^1.0.4",
+    "t-filter": "atomelements/t-filter#master"
   },
   "devDependencies": {
     "web-component-tester": "*",
     "webcomponentsjs": "~0.7.14",
     "iron-component-page": "PolymerElements/iron-component-page#~1.0.6"
+  },
+  "resolutions": {
+    "t-filter": "master"
   }
 }

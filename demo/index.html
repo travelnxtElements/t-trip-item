@@ -12,6 +12,7 @@
     <link rel="import" href="../../iron-icons/maps-icons.html" />
     <link rel="import" href="../../iron-icons/places-icons.html" />
     <link rel="import" href="../../t-shared-components/theme.html" />
+    <link rel="import" href="../../t-header/t-header.html" />
     <link rel="import" href="../t-trip-item.html">
     <style>
         body{
@@ -22,7 +23,22 @@
 </head>
 
 <body>
-    <t-list id="list" data-api="result.json" as="item" token-param="bookings" auto>
+    <t-header 
+        label= "My Trips" 
+        normal-heading>
+    </t-header>
+
+    <t-list
+        id="list"
+        data-api="http://qa-mystiquecode.tavisca.com/api/ShoppingCart/retrieve/orders/109350?token=4slkt24xtfat3tvhm0hpawru"
+        data-call-method="POST"
+        filter-api="filter.json"
+        as="item"
+        token-param="bookings"
+        filter-search-label = "search traveller name"
+        auto
+        include-filters='["Status","DateRange", "Traveller"]'
+        with-filter>
         <template>
             <t-trip-item model="{{item}}"></t-trip-item>
         </template>
