@@ -27,17 +27,21 @@
         label= "My Trips" 
         normal-heading>
     </t-header>
-
     <t-list
+
+        filter-api-response="result"
         id="list"
-        data-api="http://qa-mystiquecode.tavisca.com/api/ShoppingCart/retrieve/orders/109350?token=4slkt24xtfat3tvhm0hpawru"
-        data-call-method="POST"
-        filter-api="filter.json"
+        data-api="result1.json"
+        data-call-method="GET"
+        filter-call-method="POST"        
+        filter-response-param="result"
+        filter-api="http://qa-mystiquecode.tavisca.com/api/ShoppingCart/retrieve/orders/filters?token=4slkt24xtfat3tvhm0hpawru"
+        filter-results-api="http://qa-mystiquecode.tavisca.com/api/ShoppingCart/retrieve/orders/109350?token=4slkt24xtfat3tvhm0hpawru"
         as="item"
         token-param="bookings"
         filter-search-label = "search traveller name"
         auto
-        include-filters='["Status","DateRange", "Traveller"]'
+        include-filters='["Status","DateRange","Traveller"]'
         with-filter>
         <template>
             <t-trip-item model="{{item}}"></t-trip-item>
