@@ -59,43 +59,45 @@ Example:
         top: 0!important;
     }
     </style>
-        <div class="layout horizontal secondary-text font-12 header-icon-holder">
-            <div class="flex layout vertical">
-                <div class="inventory-detail layout horizontal">
-                    <div class="flex primary-light-text font-14">
-                        [[model.name]]
+        <div class="section-small">
+            <div class="layout horizontal secondary-text font-12 header-icon-holder">
+                <div class="flex layout vertical">
+                    <div class="inventory-detail layout horizontal">
+                        <div class="flex primary-light-text font-14">
+                            [[model.name]]
+                        </div>
+                        <div class$="{{_getStatusClass(model.bookingStatus)}}">[[model.bookingStatus]]</div>
                     </div>
-                    <div class$="{{_getStatusClass(model.bookingStatus)}}">[[model.bookingStatus]]</div>
+                    <div class="inventory-description">
+                        Trip ID: [[model.confirmationNumber]]
+                    </div>
                 </div>
-                <div class="inventory-description">
-                    Trip ID: [[model.confirmationNumber]]
+                <div class="icon">
+                    <paper-menu-button horizontal-offset="-20" horizontal-align="right">
+                      <paper-icon-button icon="more-vert" class="dropdown-trigger" noink></paper-icon-button>
+                      <paper-menu class="dropdown-content">
+                        <paper-item>Details</paper-item>
+                        <paper-item>Delete</paper-item>
+                      </paper-menu>
+                    </paper-menu-button>
                 </div>
             </div>
-            <div class="icon">
-                <paper-menu-button horizontal-offset="-20" horizontal-align="right">
-                  <paper-icon-button icon="more-vert" class="dropdown-trigger" noink></paper-icon-button>
-                  <paper-menu class="dropdown-content">
-                    <paper-item>Details</paper-item>
-                    <paper-item>Delete</paper-item>
-                  </paper-menu>
-                </paper-menu-button>
+            <div>
+                <template is="dom-repeat" items="{{model.inventoriesInfo}}">
+                    <template is="dom-if" if="{{_isType(item,'flight')}}">
+                        <t-air-item class="block" model="{{item}}"></t-air-item>
+                    </template>
+                    <template is="dom-if" if="{{_isType(item,'hotel')}}">
+                        <t-hotel-item class="block" model="{{item}}"></t-hotel-item>
+                    </template>
+                    <template is="dom-if" if="{{_isType(item,'car')}}">
+                        <t-car-item class="block" model="{{item}}"></t-car-item>
+                    </template>
+                    <template is="dom-if" if="{{_isType(item,'activity')}}">
+                        <t-activity-item class="block" model="{{item}}"></t-activity-item>
+                    </template>
+                </template>
             </div>
-        </div>
-        <div>
-            <template is="dom-repeat" items="{{model.inventoriesInfo}}">
-                <template is="dom-if" if="{{_isType(item,'flight')}}">
-                    <t-air-item class="block" model="{{item}}"></t-air-item>
-                </template>
-                <template is="dom-if" if="{{_isType(item,'hotel')}}">
-                    <t-hotel-item class="block" model="{{item}}"></t-hotel-item>
-                </template>
-                <template is="dom-if" if="{{_isType(item,'car')}}">
-                    <t-car-item class="block" model="{{item}}"></t-car-item>
-                </template>
-                <template is="dom-if" if="{{_isType(item,'activity')}}">
-                    <t-activity-item class="block" model="{{item}}"></t-activity-item>
-                </template>
-            </template>
         </div>
     </template>
 </dom-module>
