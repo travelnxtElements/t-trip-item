@@ -1,4 +1,5 @@
 <link rel="import" href="../polymer/polymer.html" />
+<link rel="import" href="dateBehavior.html">
 <!--
     `t-air-item` air product component.
     This component shows information single air product.
@@ -8,8 +9,8 @@
         <div>logo - [[logo]]</div>
         <div>onward source - [[onwardSource]]</div>
         <div>return source - [[returnSource]]</div>
-        <div>onward date - [[onwardDate]]</div>
-        <div>return date - [[returnDate]]</div>
+        <div>onward date - [[_getDisplayDate(model.inventory.departureTime.date)]]</div>
+        <div>return date - [[_getDisplayDate(model.inventory.arrivalTime.date)]]</div>
         <div>adult count - [[adultCount]]</div>
         <div>child count - [[childCount]]</div>
         <div>infant count - [[infantCount]]</div>
@@ -20,7 +21,7 @@
 <script>
 Polymer({
     is: "t-air-item",
-
+    behaviors:[Polymer.TravelnxtDateBehaviour],
     properties: {
 
         /**
@@ -39,12 +40,12 @@ Polymer({
          */
         model: {
             type: Object,
-            value: null
+            value: null,
+            observer:'_populateModel'
         }
     },
 
     attached: function() {
-        this._populateModel();
     },
 
     _populateModel: function() {
@@ -63,7 +64,7 @@ Polymer({
 
         this._setGuestCount();
 
-        this._setDates();
+       // this._setDates();
 
         this.status = this.model.bookingStatus;
     },
@@ -91,20 +92,6 @@ Polymer({
                     this.infantCount = this.model.searchCriteria.passengers[i].quantity;
                     break;
             }
-        }
-    },
-
-    _setDates: function() {
-        var month = ["Jan", "Feb", "March", "April", "May", "June", "July", "Aug", "Sep", "Oct", "Nov", "Dec"];
-
-        if (this.model.inventory.departureTime) {
-            var onwardDate = new Date(this.model.inventory.departureTime.date);
-            this.onwardDate = onwardDate.getDate() + ' ' + month[onwardDate.getMonth()];
-        }
-
-        if (this.model.inventory.arrivalTime) {
-            var returnDate = new Date(this.model.inventory.arrivalTime.date);
-            this.returnDate = returnDate.getDate() + ' ' + month[returnDate.getMonth()];
         }
     }
 });

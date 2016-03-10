@@ -1,4 +1,5 @@
 <link rel="import" href="../polymer/polymer.html" />
+<link rel="import" href="dateBehavior.html">
 <!--
     `t-hotel-item` hotel product component.
     This component shows information single hotel product.
@@ -8,8 +9,8 @@
         <div>logo - [[logo]]</div>
         <div>name - [[name]]</div>
         <div>passenger count - [[passengerCount]]</div>
-        <div>check in date - [[checkIn]]</div>
-        <div>check out date - [[checkOut]]</div>
+        <div>check in date - [[_getDisplayDate(model.inventory.stayDuration.start.date)]]</div>
+        <div>check out date - [[_getDisplayDate(model.inventory.stayDuration.end.date)]]</div>
         <div>stay duration - [[stay]]</div>
         <div>status - [[status]]</div>
     </template>
@@ -17,7 +18,7 @@
 <script>
 Polymer({
     is: "t-hotel-item",
-
+    behaviors:[Polymer.TravelnxtDateBehaviour],
     properties: {
         logo: {
             type: String,
@@ -47,7 +48,7 @@ Polymer({
 
         this.name = this.model.inventory.name;
         this.status = this.model.bookingStatus;
-        this._setDates();
+        //this._setDates();
         this._setStayCount();
         this._setPassengerCount();
     },
@@ -70,20 +71,6 @@ Polymer({
         }
 
         this.passengerCount = guestCount;
-    },
-
-    _setDates: function() {
-        var month = ["Jan", "Feb", "March", "April", "May", "June", "July", "Aug", "Sep", "Oct", "Nov", "Dec"];
-
-        if (this.model.inventory.stayDuration.start) {
-            var checkIn = new Date(this.model.inventory.stayDuration.start.date);
-            this.checkIn = checkIn.getDate() + ' ' + month[checkIn.getMonth()];
-        }
-
-        if (this.model.inventory.stayDuration.end) {
-            var checkOut = new Date(this.model.inventory.stayDuration.end.date);
-            this.checkOut = checkOut.getDate() + ' ' + month[checkOut.getMonth()];
-        }
     }
 });
 </script>

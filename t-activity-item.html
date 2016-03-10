@@ -1,4 +1,5 @@
 <link rel="import" href="../polymer/polymer.html" />
+<link rel="import" href="dateBehavior.html">
 <!--
     `t-activity-item` activity product component.
     This component shows information single activity product.
@@ -7,7 +8,7 @@
     <template>
         <div>logo - [[logo]]</div>
         <div>name - [[name]]</div>
-        <div>date - [[date]]</div>
+        <div>date - [[_getDisplayDate(model.inventory.options.0.selectedDateTime.date)]]</div>
         <div>location - [[location]]</div>
         <div>status - [[status]]</div>
     </template>
@@ -15,7 +16,7 @@
 <script>
 Polymer({
     is: "t-activity-item",
-
+    behaviors:[Polymer.TravelnxtDateBehaviour],
     properties: {
 
         /**
@@ -51,17 +52,8 @@ Polymer({
         this.name = this.model.inventory.name;
         this.status = this.model.bookingStatus;
         this.location = this.model.searchCriteria.location.cityName || 'not sent by api';
-        this._setDates();
+        //this._setDates();
 
-    },
-
-    _setDates: function() {
-        var month = ["Jan", "Feb", "March", "April", "May", "June", "July", "Aug", "Sep", "Oct", "Nov", "Dec"];
-
-        if (this.model.inventory.options[0].selectedDateTime) {
-            var date = new Date(this.model.inventory.options[0].selectedDateTime.date);
-            this.date = date.getDate() + ' ' + month[date.getMonth()];
-        }
     }
 });
 </script>

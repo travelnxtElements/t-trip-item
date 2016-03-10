@@ -21,32 +21,32 @@ Example:
         </t-list>-->
 <dom-module id="t-trip-item">
     <template>
-        <div>trip name - {{name}}</div>
-        <div>trip id - {{tripId}}</div>
+        <div>trip name - {{model.name}}</div>
+        <div>model id - {{model.confirmationNumber}}</div>
         <div>delete link</div>
         <div>details link</div>
-        <div>status - {{status}}</div>
+        <div>status - {{model.bookingStatus}}</div>
         <br>
         <div>
-            <template is="dom-repeat" items="{{tripProducts}}">
-                <template is="dom-if" if="{{_isAir(item)}}">
+            <template is="dom-repeat" items="{{model.inventoriesInfo}}">
+                <template is="dom-if" if="{{_isType(item,'flight')}}">
                     <h3>air</h3>
                     <t-air-item model="{{item}}"></t-air-item>
                     <br>
                 </template>
-                <template is="dom-if" if="{{_isHotel(item)}}">
+                <template is="dom-if" if="{{_isType(item,'hotel')}}">
                     <br>
                     <h3>hotel</h3>
                     <t-hotel-item model="{{item}}"></t-hotel-item>
                     <br>
                 </template>
-                <template is="dom-if" if="{{_isCar(item)}}">
+                <template is="dom-if" if="{{_isType(item,'car')}}">
                     <br>
                     <h3>car</h3>
                     <t-car-item model="{{item}}"></t-car-item>
                     <br>
                 </template>
-                <template is="dom-if" if="{{_isActivity(item)}}">
+                <template is="dom-if" if="{{_isType(item,'activity')}}">
                     <br>
                     <h3>activity</h3>
                     <t-activity-item model="{{item}}"></t-activity-item>
@@ -63,96 +63,42 @@ Polymer({
     properties: {
 
         /**
-         * trip name.
-         * This is required field.
-         */
-        name: {
-            type: String,
-            value: ''
-        },
-
-        /**
-         * trip id.
-         * This is required field.
-         */
-        tripId: {
-            type: String,
-            value: ''
-        },
-
-        /**
-         * list of booked inventories.
-         */
-        tripProducts: {
-            type: Array,
-            value: []
-        },
-
-        /**
          * trip item.
          * This is required field.
          */
-        trip: {
+        model: {
             type: Object,
             value: {},
-            observer: 'populateModel'
-        },
-
-        /**
-         * trip status.
-         * This is required field.
-         */
-        status: {
-            type: String,
-            value: ''
+            observer: '_populateModel'
         }
     },
 
     attached: function() {
-        if (!this.trip)
-            console.error("trip not found!");
-        if (!this.tripProducts)
-            this.tripProducts = this.trip.inventoriesInfo;
+        if (!this.model)
+            console.error("model not found!");
+       /* if (!this.tripProducts)
+            this.tripProducts = this.trip.inventoriesInfo;*/
     },
 
-    populateModel: function() {
-        if (!this.trip)
+    _populateModel: function() {
+        if (!this.model){
             console.error("trip not found!");
+            return;
+        }
 
-        if (!this.tripProducts.length && this.trip.inventoriesInfo)
-            this.tripProducts = this.trip.inventoriesInfo;
-
+      /*  if (!this.tripProducts.length && this.trip.inventoriesInfo)
+            this.tripProducts = this.trip.inventoriesInfo;*/
+/*
         this.name = this.trip.name;
         this.tripId = this.trip.confirmationNumber;
-        this.status = this.trip.bookingStatus;
+        this.status = this.trip.bookingStatus;*/
     },
 
-    _isAir: function(product) {
+    _isType: function(product,type){
         if (!product || !product.inventory)
             console.error("inventory not found!");
 
-        return product.inventory.type.toLowerCase() === 'flight';
-    },
-
-    _isHotel: function(product) {
-        if (!product || !product.inventory)
-            console.error("inventory not found!");
-
-        return product.inventory.type.toLowerCase() === 'hotel';
-    },
-
-    _isActivity: function(product) {
-        if (!product || !product.inventory)
-            console.error("inventory not found!");
-
-        return product.inventory.type.toLowerCase() === 'activity';
-    },
-
-    _isCar: function(product) {
-        if (!product || !product.inventory)
-            console.error("inventory not found!");
-
-        return product.inventory.type.toLowerCase() === 'car';
+        return product.inventory.type.toLowerCase() === type;
     }
 });
 </script>
