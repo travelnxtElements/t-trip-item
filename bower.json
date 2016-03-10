@@ -23,7 +23,7 @@
   ],
   "dependencies": {
     "polymer": "Polymer/polymer#^1.0.0",
-    "t-list": "atomelements/t-list#master",
+    "t-list": "atomelements/t-list#master"
   },
   "devDependencies": {
     "web-component-tester": "*",
