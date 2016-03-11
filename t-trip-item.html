@@ -76,8 +76,8 @@ Example:
                     <paper-menu-button horizontal-offset="-20" horizontal-align="right">
                       <paper-icon-button icon="more-vert" class="dropdown-trigger" noink></paper-icon-button>
                       <paper-menu class="dropdown-content">
-                        <paper-item>Details</paper-item>
-                        <paper-item>Delete</paper-item>
+                        <paper-item on-tap="_detailClick">Details</paper-item>
+                        <!-- <paper-item>Delete</paper-item> -->
                       </paper-menu>
                     </paper-menu-button>
                 </div>
@@ -125,6 +125,10 @@ Polymer({
             return;
         }
         return status.toLowerCase();
+    },
+
+    _detailClick: function(){
+        this.fire('detail-click',{confirmationNumber:this.model.confirmationNumber},{bubbles:false});
     },
 
     _isType: function(product,type){
