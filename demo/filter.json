@@ -1,5 +1,5 @@
 {
-    "filters": [{
+    "result": [{
         "category": "TripName",
         "type": "Search",
         "label": "Trip Name",

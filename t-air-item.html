@@ -8,21 +8,32 @@
 <dom-module id="t-air-item">
     <template>
         <t-trip-subitem-scaffold icon="maps:flight" status="[[model.bookingStatus]]">
+
             <div class="inventory-detail layout horizontal">
-                [[model.searchCriteria.legs.0.departureLocation.code]] 
-                <template is="dom-if" if="[[isRoundTrip]]">
-                     <iron-icon icon="swap-horiz"></iron-icon>
+                <template is="dom-if" if="{{!_isType('MultiCity',model)}}">
+                        [[model.searchCriteria.legs.0.departureLocation.code]]
+                            <iron-icon icon="{{_getIronIcon(model)}}"></iron-icon>
+                        [[model.searchCriteria.legs.0.arrivalLocation.code]]
                 </template>
-                <template is="dom-if" if="[[!isRoundTrip]]">
-                     <iron-icon icon="trending-flat"></iron-icon>
+                <template is="dom-if" if="{{_isType('MultiCity',model)}}">
+                    <template is="dom-repeat" items="[[model.searchCriteria.legs]]">
+                        [[item.departureLocation.code]]
+                        <template is="dom-if" if="{{!_isLastLeg(index,model)}}">
+                            <iron-icon icon="trending-flat"></iron-icon>
+                         </template>
+                    </template>
                 </template>
-                [[model.searchCriteria.legs.0.arrivalLocation.code]]
             </div>
+
             <div class="inventory-description">
-                [[_getDisplayDate(model.inventory.departureTime.date)]]
-                <template is="dom-if" if="[[isRoundTrip]]">
-                     - [[_getDisplayDate(model.inventory.arrivalTime.date)]]
+
+                <template is="dom-repeat" items="[[model.searchCriteria.legs]]">
+                    [[_getDisplayDate(item.travelDate.date)]]
+                    <template is="dom-if" if="{{!_isLastLeg(index,model)}}">
+                         - 
+                    </template>                    
                 </template>
+
             </div>
         </t-trip-subitem-scaffold>
     </template>
@@ -50,10 +61,26 @@ Polymer({
 
     _populateModel: function() {
         if (!this.model || !this.model.inventory || this.model.inventory.type.toLowerCase() !== 'flight') {
-            console.error("air inventory not found!");
             return;
         }
-        this.isRoundTrip = this.model.inventory.itineraryType.toLowerCase() === "roundtrip";
+    },
+
+    _isType:function (type,model) {
+        if(!model){
+            return;
+        }
+        return model.searchCriteria.itineraryType.toLowerCase() === type.toLowerCase();
+    },
+
+    _isLastLeg:function (index,model) {
+        if(!model){
+            return;
+        }
+        return model.searchCriteria.legs.length === (index + 1);
+    },
+
+    _getIronIcon:function (model) {
+        return this._isType('OneWay', model) ? 'trending-flat' : 'swap-horiz';
     }
 });
 </script>
