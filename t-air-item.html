@@ -66,17 +66,21 @@ Polymer({
     },
 
     _isType:function (type,model) {
-        if(!model){
+        if(!model || !this._isFlight()){
             return;
         }
         return model.searchCriteria.itineraryType.toLowerCase() === type.toLowerCase();
     },
 
     _isLastLeg:function (index,model) {
-        if(!model){
+        if(!model || !this._isFlight()){
             return;
         }
         return model.searchCriteria.legs.length === (index + 1);
+    },
+
+    _isFlight:function () {
+        return this.model && this.model.inventory && this.model.inventory.type.toLowerCase() === 'flight'
     },
 
     _getIronIcon:function (model) {
