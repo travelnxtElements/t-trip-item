@@ -128,7 +128,7 @@ Polymer({
     },
 
     _detailClick: function(){
-        this.fire('detail-click',{confirmationNumber:this.model.confirmationNumber},{bubbles:false});
+        this.fire('detail-click',this.model.confirmationNumber);
     },
 
     _isType: function(product,type){
