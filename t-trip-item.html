@@ -4,7 +4,7 @@
 <link rel="import" href="./t-hotel-item.html">
 <link rel="import" href="./t-activity-item.html">
 <link rel="import" href="./t-car-item.html">
-<link rel="import" href="../iron-flex-layout/classes/iron-flex-layout.html">
+<link rel="import" href="../iron-flex-layout/iron-flex-layout-classes.html" />
 <!--
     `t-trip-item` is trip listing item component.
     This component shows information of a single trip.
@@ -23,6 +23,7 @@ Example:
         </t-list>-->
 <dom-module id="t-trip-item">
     <template>
+    <link rel="import" type="css" href="iron-flex" />
     <style include="travel-element-styles">
     :host{
         display: block;
