@@ -9,8 +9,8 @@
     `t-trip-item` is trip listing item component.
     This component shows information of a single trip.
     It may contain one or more product depending upon booked itineraries.
-	
-	
+    
+    
 Example:
         without event handlers
         <t-trip-api></t-trip-api>
@@ -44,14 +44,15 @@ Example:
     .planned{
         color: var(--notify-color, #e3b255);
     }
-    paper-icon-button{
+    iron-icon{
+        position: relative;
         padding: 0;
         width: 20px;
         height: 20px;
         right: -7px;
         top: -3px;
     }
-    paper-menu-button{
+    #detailMenu{
         padding: 0; 
     }
     .header-icon-holder{
@@ -66,13 +67,13 @@ Example:
         color: var(--grey-three,#bbbbbb);
         font-weight: normal!important;
     }
-    paper-menu-button ::content > #dropdown{    
+    #detailMenu ::content > #dropdown{    
         left: calc(100% - 80px)!important;
         margin: 0!important;
         top: 13px!important;
         width: 70px;
     }
-    paper-menu-button ::content paper-material{
+    #detailMenu ::content paper-material{
         width: 70px;
         box-shadow: 0px 0px 8px 2px rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
     }
@@ -92,15 +93,15 @@ Example:
                         <div class="flex primary-text font-16 margin-bottom">
                             [[model.name]]
                         </div>
-                        <div class$="{{_getStatusClass(model.bookingStatus)}} font-14">[[model.bookingStatus]]</div>
+                        <div class$="{{_getStatusClass(model.bookingStatus)}} font-14" on-tap="toggleDetails">[[model.bookingStatus]]</div>
                     </div>
                     <div class="inventory-description">
                         Trip ID: [[model.confirmationNumber]]
                     </div>
                 </div>
-                <div class="icon">
-                    <paper-menu-button horizontal-offset="-20" horizontal-align="right">
-                      <paper-icon-button icon="more-vert" class="dropdown-trigger" noink></paper-icon-button>
+                <div class="icon" on-tap="toggleDetails">
+                    <iron-icon icon="more-vert"></iron-icon>
+                    <paper-menu-button id="detailMenu" horizontal-offset="-20" horizontal-align="right">
                       <paper-menu class="dropdown-content">
                         <paper-item on-tap="_detailClick">Details</paper-item>
                         <!-- <paper-item>Delete</paper-item> -->
@@ -162,6 +163,11 @@ Polymer({
             console.error("inventory not found!");
 
         return product.inventory.type.toLowerCase() === type;
+    },
+
+    //toggle the details button
+    toggleDetails: function(){
+        this.$.detailMenu.open();
     }
 });
 </script>
