@@ -44,20 +44,24 @@ Example:
     .planned{
         color: var(--notify-color, #e3b255);
     }
+    .icon{
+        width: 12px;
+        position: absolute;
+        right: -10px;
+        top: 0;
+        padding: 0 10px;
+        z-index: 1;
+    }
     iron-icon{
-        position: relative;
-        padding: 0;
         width: 20px;
         height: 20px;
-        right: -7px;
-        top: -3px;
     }
     #detailMenu{
         padding: 0; 
     }
     .header-icon-holder{
         position: relative;
-        overflow: hidden;
+        padding-right: 20px;
     }
     paper-item{
         font-size: var(--font-12,12px);
@@ -99,8 +103,8 @@ Example:
                         Trip ID: [[model.confirmationNumber]]
                     </div>
                 </div>
-                <div class="icon" on-tap="toggleDetails">
-                    <iron-icon icon="more-vert"></iron-icon>
+                <div class="icon"  on-tap="toggleDetails">
+                    <iron-icon icon="more-vert"  on-tap="toggleDetails"></iron-icon>
                     <paper-menu-button id="detailMenu" horizontal-offset="-20" horizontal-align="right">
                       <paper-menu class="dropdown-content">
                         <paper-item on-tap="_detailClick">Details</paper-item>
